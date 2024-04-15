@@ -22,20 +22,16 @@ class ProduitFactory extends Factory
         $faker = Faker::create();
         return [
             'codePro' => $faker->unique()->randomNumber(6, true),
-            'nomPro' => $faker->name(),
-            'prix' => $faker->randomFloat(0, 0, 9999999),
-            'qte' => $faker->randomNumber(4, true),
+            'nomPro' => $faker->word(),
+            'prix' => $faker->randomFloat(0, 0, 999999),
+            'qte' => $faker->randomNumber(2, true),
             'description' => str::limit($faker->paragraph(2), 60),
-            'codeArrivage' => str::limit($faker->paragraph(2), 200),
+            'codeArrivage' => $faker->word(),
 
             'actif' => $faker->boolean,
-            'dateInsertion' => $faker->dateTimeBetween('-1 year'),
             'prixAchat' => $faker->randomFloat(0, 0, 99999999),
             'pourcentage' => $faker->randomFloat(2, 0, 99),
             'promo' => $faker->boolean,
-            'size1' => $faker->randomNumber(3, true),
-            'size2' => $faker->randomNumber(3, true),
-            'typeSize' => $faker->randomNumber(3, true),
         ];
     }
 }

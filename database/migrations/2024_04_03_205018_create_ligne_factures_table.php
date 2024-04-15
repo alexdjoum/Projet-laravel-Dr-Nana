@@ -10,20 +10,17 @@ return new class extends Migration {
      */
     public function up(): void
     {
-        Schema::create('ligne_commandes', function (Blueprint $table) {
+        Schema::create('ligne_factures', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger("commande_id")->nullable();
-            $table->foreign("commande_id")->references("id")->on("commandes")->onDelete("cascade");
+            $table->unsignedBigInteger("facture_id")->nullable();
+            $table->foreign("facture_id")->references("id")->on("factures")->onDelete("cascade");
 
 
             $table->unsignedInteger("produit_codePro")->nullable();
             $table->foreign("produit_codePro")->references("codePro")->on("produits");
 
             $table->unsignedInteger('qte');
-            $table->string("taille", 30)->nullable();
-            $table->string("couleur", 30)->nullable();
-
-            $table->tinyInteger('disponible')->default(true);
+            $table->decimal("prix", 10, 2);
 
             $table->timestamps();
         });
@@ -34,6 +31,6 @@ return new class extends Migration {
      */
     public function down(): void
     {
-        Schema::dropIfExists('ligne_commandes');
+        Schema::dropIfExists('ligne_factures');
     }
 };

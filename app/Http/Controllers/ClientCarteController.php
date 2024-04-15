@@ -2,23 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\categorie;
+use App\Models\clientCarte;
 use Illuminate\Http\Request;
 
-class CategorieController extends Controller
+class ClientCarteController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $categories = categorie::latest()->get();
-        return response()->json([
-            'status_code' => 200,
-            'status_message' => 'Categories charger',
-            'categoriesList' => $categories
-        ]);
-
+        //
     }
 
     /**
@@ -26,13 +20,13 @@ class CategorieController extends Controller
      */
     public function store(Request $request)
     {
-        //
+
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(clientCarte $clientCarte)
     {
         //
     }
@@ -40,7 +34,7 @@ class CategorieController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, clientCarte $clientCarte)
     {
         //
     }
@@ -48,7 +42,7 @@ class CategorieController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(clientCarte $clientCarte)
     {
         //
     }

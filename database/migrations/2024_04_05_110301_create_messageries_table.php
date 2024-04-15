@@ -10,10 +10,12 @@ return new class extends Migration {
      */
     public function up(): void
     {
-        Schema::create('categories', function (Blueprint $table) {
-            $table->id("id");
-            $table->string("nomCat", 60);
-            $table->string("image");
+        Schema::create('messageries', function (Blueprint $table) {
+            $table->id();
+            $table->string('mobile', 20);
+            $table->text('wsms');
+            $table->integer('type');
+            $table->integer('service');
             $table->timestamps();
         });
     }
@@ -23,6 +25,6 @@ return new class extends Migration {
      */
     public function down(): void
     {
-        Schema::dropIfExists('categories');
+        Schema::dropIfExists('messageries');
     }
 };

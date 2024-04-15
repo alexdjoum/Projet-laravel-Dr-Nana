@@ -14,4 +14,8 @@ class categorie extends Model
     {
         return $this->hasMany(produit::class);
     }
+    protected $fillable = [
+        "nomCat",
+        "image"
+    ];
 }

@@ -19,7 +19,8 @@ class CategorieFactory extends Factory
     {
         $faker = Faker::create();
         return [
-            'nomCat' => $faker->word
+            'nomCat' => $faker->word,
+            'image' => $faker->imageUrl(640, 480, 'vetements', true),
         ];
     }
 }

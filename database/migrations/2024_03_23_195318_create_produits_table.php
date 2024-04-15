@@ -18,19 +18,14 @@ return new class extends Migration {
             $table->unsignedInteger('qte');
             $table->string("description", 100);
             $table->string("codeArrivage", 250);
-            $table->tinyInteger('actif');
+            $table->tinyInteger('actif')->default(true);
 
-            $table->unsignedBigInteger('categorie_id')->nullable();
+            $table->unsignedBigInteger('categorie_id')->nullable(true);
             $table->foreign('categorie_id')->references('id')->on('categories');
-
-
-            $table->dateTime('dateInsertion');
             $table->decimal("prixAchat", 8, 0, true);
             $table->decimal("pourcentage", 4, 2, true);
-            $table->tinyInteger('promo');
-            $table->integer('size1');
-            $table->integer('size2');
-            $table->integer('typeSize');
+            $table->tinyInteger('promo')->default(false);
+
             $table->timestamps();
         });
     }

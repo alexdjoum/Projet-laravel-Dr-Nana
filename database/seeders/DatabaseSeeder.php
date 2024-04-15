@@ -25,15 +25,15 @@ class DatabaseSeeder extends Seeder
         categorie::factory(5)->create();
         $categories = categorie::all();
 
-        produit::factory(5)
+        produit::factory(10)
             ->sequence(fn() => [
                 'categorie_id' => $categories->random(),
             ])->create();
 
-        $produits = produit::all();
+        /*$produits = produit::all();
         photo::factory(20)
             ->sequence(fn() => [
                 'produit_codePro' => $produits->random(),
-            ])->create();
+            ])->create();*/
     }
 }
