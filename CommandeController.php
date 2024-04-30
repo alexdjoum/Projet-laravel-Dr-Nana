@@ -67,7 +67,10 @@ class CommandeController extends Controller
         foreach ($productList as $ligneCommande) {
             $product = produit::find($ligneCommande["codePro"]);
             unset($ligneCommande["codePro"]);
+
             if (isset($product) && $product->qte >= $ligneCommande["qte"]) {
+                $ligneCommande["taille"] = implode('-', $ligneCommande["taille"]);
+                $ligneCommande["couleur"] = implode('-', $ligneCommande["couleur"]);
                 $ligne_creer = new ligneCommande($ligneCommande);
                 $product->ligneCommandes()->save($ligne_creer);
                 $commande_creer->ligneCommandes()->save($ligne_creer);
@@ -82,7 +85,7 @@ class CommandeController extends Controller
         $commande_creer = commande::latest()->first();
         return response()->json([
             'status_message' => 'ok',
-            "Commande" => $commande_creer
+            "Commande" => commande::latest()->first()
         ], 201);
     }
 
