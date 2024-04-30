@@ -16,9 +16,8 @@ class ProduitFeaturesController extends Controller
         unlink($photo->lienPhoto);
         $photo->delete();
         return response()->json([
-            'status_code' => 200,
             'status_message' => "Photo supprime"
-        ]);
+        ], 200);
     }
 
     public function storePhotos(produit $produit, Request $request)
@@ -34,27 +33,24 @@ class ProduitFeaturesController extends Controller
         $produit->photos()->save($photo);
 
         return response()->json([
-            'status_code' => 200,
             'status_message' => 'Photo ajoute',
-        ]);
+        ], 201);
     }
 
     public function destroyColor(color $color)
     {
         $color->delete();
         return response()->json([
-            'status_code' => 200,
             'status_message' => "Couleur supprime"
-        ]);
+        ], 200);
     }
 
     public function destroySize(size $size)
     {
         $size->delete();
         return response()->json([
-            'status_code' => 200,
             'status_message' => "Couleur supprime"
-        ]);
+        ], 200);
     }
     public function storeColor(produit $produit, Request $request)
     {
@@ -66,7 +62,7 @@ class ProduitFeaturesController extends Controller
         $produit->colors()->save($color);
         return response()->json([
             "message" => "modification reussie"
-        ]);
+        ], 201);
 
     }
     public function storeSize(produit $produit, Request $request)
@@ -79,7 +75,7 @@ class ProduitFeaturesController extends Controller
         $produit->sizes()->save($size);
         return response()->json([
             "message" => "modification reussie"
-        ]);
+        ], 201);
 
     }
 

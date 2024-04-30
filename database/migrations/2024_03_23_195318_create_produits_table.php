@@ -23,7 +23,7 @@ return new class extends Migration {
             $table->unsignedBigInteger('categorie_id')->nullable(true);
             $table->foreign('categorie_id')->references('id')->on('categories');
             $table->decimal("prixAchat", 8, 0, true);
-            $table->decimal("pourcentage", 4, 2, true);
+            $table->decimal("pourcentage", 4, 2, true)->default(0);
             $table->tinyInteger('promo')->default(false);
 
             $table->timestamps();

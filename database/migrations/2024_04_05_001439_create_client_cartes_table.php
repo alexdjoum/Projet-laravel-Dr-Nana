@@ -23,8 +23,8 @@ return new class extends Migration {
             $table->string("mobile", 15);
             $table->tinyInteger("whatsapp")->default(true);
 
-            $table->integer("point", 0, 1);
-            $table->decimal("montantTontine", 8, 2);
+            $table->integer("point", 0, 1)->default(0);
+            $table->decimal("montantTontine", 8, 2)->default(0);
 
             $table->timestamps();
         });

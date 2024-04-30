@@ -14,7 +14,7 @@ return new class extends Migration {
             $table->id();
             $table->decimal("montant", 10, 2);
             $table->text("commentaire");
-            $table->unsignedBigInteger("user_id")->nullable(false);
+            $table->unsignedBigInteger("user_id")->nullable();
             $table->foreign("user_id")->references("id")->on("users");
 
             $table->tinyInteger("validite");

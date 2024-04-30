@@ -17,17 +17,7 @@ class CategorieController extends Controller
         $categories = categorie::latest()->get();
         $baseUrl = url('/');
 
-        /*foreach ($categories as $categorie) {
-            $categorie->image = $baseUrl . '/' . $categorie->image;
-        }*/
-
-        return $categories;
-
-        /*return response()->json([
-            'status_code' => 200,
-            'status_message' => 'Categories charger',
-            'categoriesList' => $categories
-        ]);*/
+        return response()->json(['categories' => $categories], 200);
 
     }
 
@@ -37,7 +27,7 @@ class CategorieController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            "nomCat" => 'required|string',
+            "nomCat" => 'required|string|unique:categories,nomCat',
             "photo" => 'required|mimes:jpeg,png,jpg,gif|max:4096'
         ]);
         $photoName = time() . '.' . $request->photo->extension();
@@ -48,13 +38,7 @@ class CategorieController extends Controller
         $categorie->image = 'images/' . $photoName;
         $categorie->save();
 
-        return $categorie;
-
-        /*
-        return response()->json([
-            "message" => "categorie cree",
-            "categorie" => $categorie
-        ]);*/
+        return response()->json(['categorie' => $categorie], 201);
     }
 
     /**
@@ -90,7 +74,7 @@ class CategorieController extends Controller
         return response()->json([
             "message" => "categorie update",
             "categorie" => $categorie
-        ]);
+        ], 200);
     }
 
     /**
@@ -101,8 +85,7 @@ class CategorieController extends Controller
         unlink($categorie->image);
         $value = $categorie->delete();
         return response()->json([
-            'status_code' => 200,
             'status_message' => "categorie supprime"
-        ]);
+        ], 200);
     }
 }

@@ -16,10 +16,10 @@ return new class extends Migration {
             $table->dateTime("dateStock");
             $table->tinyInteger("operation");
 
-            $table->unsignedBigInteger("user_id")->nullable(false);
+            $table->unsignedBigInteger("user_id")->nullable();
             $table->foreign("user_id")->references("id")->on("users");
 
-            $table->unsignedInteger("produit_codePro")->nullable(false);
+            $table->unsignedInteger("produit_codePro")->nullable();
             $table->foreign("produit_codePro")->references("codePro")->on("produits");
 
 

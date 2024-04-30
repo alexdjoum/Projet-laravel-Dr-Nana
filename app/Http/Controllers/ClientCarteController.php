@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\clientCarte;
+use App\Models\ville;
 use Illuminate\Http\Request;
 
 class ClientCarteController extends Controller
@@ -20,7 +21,25 @@ class ClientCarteController extends Controller
      */
     public function store(Request $request)
     {
+        $client = $request->validate([
+            'matr' => 'required|numeric',
+            'nom' => 'required|string',
+            'sexe' => 'required|boolean',
+            'dateNaiss' => 'required|string',
+            'ville_id' => 'required|numeric',
+            'mobile' => 'required|string',
+            'whatsapp' => 'boolean',
+            'montantTontine' => 'decimal'
+        ]);
 
+        $ville_id = $client["ville_id"];
+        unset($client["ville_id"]);
+
+        $ville = ville::find($ville_id);
+        $client_creer = new clientCarte($client);
+        $ville->clientCartes()->save($client_creer);
+
+        return response()->json(["message" => "client creer", "client" => clientCarte::latest()->first()], 201);
     }
 
     /**

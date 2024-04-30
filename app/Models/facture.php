@@ -20,6 +20,10 @@ class facture extends Model
     {
         return $this->hasMany(ligneFacture::class);
     }
+    public function ligneCartes(): HasMany
+    {
+        return $this->hasMany(ligneCarte::class);
+    }
     protected $fillable = [
         'montant',
         'remise',

@@ -20,7 +20,7 @@ return new class extends Migration {
             $table->foreign("produit_codePro")->references("codePro")->on("produits");
 
             $table->unsignedInteger('qte');
-            $table->decimal("prix", 10, 2);
+            $table->decimal("prix", 10, 2)->nullable();
 
             $table->timestamps();
         });

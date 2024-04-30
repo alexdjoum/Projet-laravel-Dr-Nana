@@ -24,12 +24,11 @@ class FactureController extends Controller
     {
         $facture = $request->validate([
             "montant" => 'required|numeric',
-            "remise" => 'required|numeric',
+            "remise" => 'numeric',
             "tel" => 'required|string',
             "typeFac" => 'required|numeric',
-            "capital" => 'numeric',
             "tva" => 'required|numeric',
-            "codePromo" => 'string',
+            "capital" => 'required|numeric',
             "ligneFacture" => 'required|array|min:1'
         ]);
 
@@ -43,8 +42,12 @@ class FactureController extends Controller
             if (isset($produit) && $produit->qte >= $ligne["qte"]) {
                 $produit->qte -= $ligne["qte"];
                 $produit->save();
+
                 unset($ligne['codePro']);
                 $ligne_creer = new ligneFacture($ligne);
+                $ligne_creer->prix = $produit->prix;
+                $ligne_creer->save();
+
                 $produit->ligneFactures()->save($ligne_creer);
                 $facture_creer->ligneFactures()->save($ligne_creer);
             }

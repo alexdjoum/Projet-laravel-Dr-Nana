@@ -33,34 +33,34 @@ class ProduitController extends Controller
         $total = $query->count();
         $result = $query->offset(($page - 1) * $perPage)->limit($perPage)->latest()->get();
 
-        return $result;
-
-        /*return response()->json([
-            'status_code' => 200,
-            'status_message' => 'Les produits ont ete recupere',
-            'nombre_resultats' => $total,
+        return response()->json([
             'current_page' => $page,
             'last_page' => ceil($total / $perPage),
+            'total' => $total,
             'items' => $result
-        ]);*/
+        ], 200);
     }
 
 
     public function produitsByCategorie(categorie $categorie, Request $request)
     {
         $query = produit::query();
-        $perPage = 4;
+        $perPage = 9;
         $page = $request->input('page', 1);
         $query->where('categorie_id', $categorie->id);
         $total = $query->count();
         $result = $query->offset(($page - 1) * $perPage)->limit($perPage)->latest()->get();
-        return $result;
-
+        return response()->json([
+            'current_page' => $page,
+            'last_page' => ceil($total / $perPage),
+            'total' => $total,
+            'items' => $result
+        ], 200);
     }
 
     public function show(produit $produit)
     {
-        return $produit;
+        return response()->json(["produit" => $produit], 200);
     }
 
     public function store(Request $request)
@@ -86,8 +86,9 @@ class ProduitController extends Controller
         $categorie->produits()->save($produit_creer);
 
         return response()->json([
-            "message" => "produit cree"
-        ]);
+            "message" => "produit cree",
+            "produit" => produit::latest()->first()
+        ], 201);
     }
 
     public function update(produit $produit, Request $request)
@@ -115,7 +116,7 @@ class ProduitController extends Controller
 
         $produit->save();
 
-        return $produit;
+        return response()->json(["message" => "Modification reussie"], 200);
     }
 
     public function destroy(produit $produit)
@@ -123,7 +124,7 @@ class ProduitController extends Controller
         $produit->delete();
         return response()->json([
             "message" => "Produit supprime"
-        ]);
+        ], 200);
     }
 
 }

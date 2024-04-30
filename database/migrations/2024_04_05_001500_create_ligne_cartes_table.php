@@ -15,8 +15,8 @@ return new class extends Migration {
 
             $table->unsignedBigInteger("facture_id");
             $table->foreign("facture_id")->references("id")->on("factures")->cascadeOnDelete();
-            $table->unsignedInteger("clientCarte_matr");
-            $table->foreign("clientCarte_matr")->references("matr")->on("client_cartes");
+            $table->unsignedInteger("client_Carte_matr");
+            $table->foreign("client_Carte_matr")->references("matr")->on("client_cartes");
 
             $table->integer("point");
             $table->decimal("montantFac", 10, 2);

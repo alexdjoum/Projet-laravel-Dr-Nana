@@ -19,8 +19,8 @@ return new class extends Migration {
             $table->text("addresse")->nullable();
             $table->text("commentaire")->nullable();
             $table->tinyInteger('livrer')->default(false);
-            $table->decimal("avance", 10, 2, true)->nullable();
-            $table->decimal("remise", 10, 2, true)->nullable();
+            $table->decimal("avance", 10, 2, true)->default(0);
+            $table->decimal("remise", 4, 2, true)->default(0);
             $table->tinyInteger('type')->default(false);
 
             $table->unsignedBigInteger("ville_id")->nullable();

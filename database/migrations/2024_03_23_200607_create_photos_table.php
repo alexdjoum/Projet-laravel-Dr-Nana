@@ -13,7 +13,7 @@ return new class extends Migration {
         Schema::create('photos', function (Blueprint $table) {
             $table->id("id");
             $table->string("lienPhoto", 150);
-            $table->unsignedInteger("produit_codePro")->nullable(false);
+            $table->unsignedInteger("produit_codePro")->nullable();
             $table->foreign("produit_codePro")->references("codePro")->on("produits")->onDelete("cascade");
             $table->timestamps();
         });

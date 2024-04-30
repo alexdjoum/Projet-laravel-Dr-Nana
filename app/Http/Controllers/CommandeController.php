@@ -32,7 +32,12 @@ class CommandeController extends Controller
         $total = $query->count();
         $result = $query->offset(($page - 1) * $perPage)->limit($perPage)->latest()->get();
 
-        return $result;
+        return response()->json([
+            'current_page' => $page,
+            'last_page' => ceil($total / $perPage),
+            'total' => $total,
+            'items' => $result
+        ], 200);
     }
 
     /**
@@ -41,17 +46,18 @@ class CommandeController extends Controller
     public function store(Request $request)
     {
         $commande = $request->validate([
-            "montant" => ["required", "numeric"],
+            "montant" => 'required|numeric',
             "nomClient" => ["required", "string", "min:2", "max:30"],
             "mobile" => ["required", "string", "max:20"],
             "addresse" => ["string"],
             "commentaire" => "string",
             "avance" => ["numeric"],
-            "remise" => ["numeric"],
+            "remise" => 'required|numeric',
             "ville_id" => 'required|numeric',
             "productList" => 'required|array|min:1'
         ]);
-        $request->avance = 0;
+
+        $commande['avance'] = 0;
         $productList = $request->productList;
         $ville_id = $request->ville_id;
         unset($commande["ville_id"]);
@@ -68,15 +74,16 @@ class CommandeController extends Controller
             }
 
         }
+        $commande_creer->save();
+
         $ville = ville::find($ville_id);
         $ville->commandes()->save($commande_creer);
 
         $commande_creer = commande::latest()->first();
         return response()->json([
-            'status_code' => 200,
             'status_message' => 'ok',
             "Commande" => $commande_creer
-        ]);
+        ], 201);
     }
 
     /**
@@ -89,15 +96,18 @@ class CommandeController extends Controller
         ]);
         $ville_creer = ville::create($ville);
         return response()->json([
-            "status_code" => 200,
             "Status_message" => "ville creer",
             "ville" => $ville_creer
-        ]);
+        ], 201);
     }
 
+    public function listVille()
+    {
+        return response()->json(["ville" => ville::latest()->get()], 200);
+    }
     public function show(commande $commande)
     {
-        return $commande;
+        return response()->json(["commande" => $commande], 200);
     }
 
     /**
@@ -109,7 +119,7 @@ class CommandeController extends Controller
         if ($commande->avance > 0) {
             return response()->json([
                 "message" => "modification pas autorise"
-            ]);
+            ], 401);
         }
         $request->validate([
             "montant" => ["numeric"],
@@ -133,7 +143,6 @@ class CommandeController extends Controller
         $request->livrer && ($commande->livrer = $request->livrer);
         $request->remise && ($commande->remise = $request->remise);
         $request->type && ($commande->type = $request->type);
-        ($commande->avance >= ($commande->montant - $commande->remise)) && ($commande->type = true);
         $commande->save();
 
         if ($request->ville_id) {
@@ -156,18 +165,13 @@ class CommandeController extends Controller
                     $ligne_creer = new ligneCommande($ligneCommande);
                     $product->ligneCommandes()->save($ligne_creer);
                     $commande->ligneCommandes()->save($ligne_creer);
-                } else {
-                    return response()->json([
-                        "message" => $product->nomPro . ' pas disponible'
-                    ]);
                 }
-
             }
         }
 
         return response()->json([
             "message" => "modification reussie"
-        ]);
+        ], 200);
     }
 
 
@@ -196,14 +200,14 @@ class CommandeController extends Controller
                 }
             }
         }
-        $commande->avance += $request->avance;
-        ($commande->avance >= ($commande->montant - $commande->remise)) && ($commande->type = true);
+        $commande->avance = $request->avance;
+        ($commande->avance >= (1 - $commande->remise / 100) * $commande->montant) && ($commande->type = true);
         $commande->save();
 
 
         return response()->json([
             "message" => "avance enregistrer"
-        ]);
+        ], 201);
     }
     /**
      * Remove the specified resource from storage.
@@ -225,6 +229,6 @@ class CommandeController extends Controller
         }
 
         $commande->delete();
-        return response()->json(["message" => "suppression reussie"]);
+        return response()->json(["message" => "suppression reussie"], 200);
     }
 }

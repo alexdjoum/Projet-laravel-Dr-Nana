@@ -14,6 +14,10 @@ class ville extends Model
     {
         return $this->hasMany(commande::class)->latest();
     }
+    public function clientCartes(): HasMany
+    {
+        return $this->hasMany(clientCarte::class);
+    }
     protected $fillable = [
         "libelle"
     ];

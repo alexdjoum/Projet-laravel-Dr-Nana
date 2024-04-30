@@ -10,12 +10,15 @@ return new class extends Migration {
      */
     public function up(): void
     {
-        Schema::create('sizes', function (Blueprint $table) {
+        Schema::create('fournisseurs', function (Blueprint $table) {
             $table->id();
-            $table->string("sizeName", 150);
-            $table->unsignedInteger("produit_codePro")->nullable();
-            $table->foreign("produit_codePro")->references("codePro")->on("produits")->onDelete("cascade");
-
+            $table->string('nom', 100);
+            $table->string('adresse', 200);
+            $table->string('ville', 50);
+            $table->string('pays', 50);
+            $table->string('mobile1', 20);
+            $table->string('mobile2', 20);
+            $table->tinyInteger('type');
             $table->timestamps();
         });
     }
@@ -25,6 +28,6 @@ return new class extends Migration {
      */
     public function down(): void
     {
-        Schema::dropIfExists('sizes');
+        Schema::dropIfExists('fournisseurs');
     }
 };
