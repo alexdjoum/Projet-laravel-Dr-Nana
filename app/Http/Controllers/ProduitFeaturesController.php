@@ -82,5 +82,22 @@ class ProduitFeaturesController extends Controller
         ]);
 
     }
+    
+    public function detail($codePro)
+    {
+        $produit = Produit::with(['photos', 'sizes', 'colors'])
+            ->where('codePro', $codePro)
+            ->first();
+
+        if (!$produit) {
+            return response()->json([
+                'message' => 'Produit non trouvé'
+            ], 404);
+        }
+
+        return response()->json([
+            'produit' => $produit,
+        ]);
+    }
 
 }

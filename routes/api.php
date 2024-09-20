@@ -21,12 +21,14 @@ Route::get('/produitByCategories/{categorie}', [ProduitController::class, 'produ
 Route::post('/updateProduit/{produit}', [ProduitController::class, 'update']);
 Route::post('/createProduit', [ProduitController::class, 'store']);
 
+
 Route::get('/dropPhoto/{photo}', [ProduitFeaturesController::class, 'destroyPhotos']);
 Route::post('/addPhoto/{produit}', [ProduitFeaturesController::class, 'storePhotos']);
 Route::get('/dropSize/{size}', [ProduitFeaturesController::class, 'destroySize']);
 Route::post('/addSize/{produit}', [ProduitFeaturesController::class, 'storeSize']);
 Route::get('/dropColor/{color}', [ProduitFeaturesController::class, 'destroyColor']);
 Route::post('/addColor/{produit}', [ProduitFeaturesController::class, 'storeColor']);
+Route::get('/details/{codePro}', [ProduitFeaturesController::class, 'detail']);
 
 Route::post('/createVille', [CommandeController::class, 'createVille']);
 Route::get('/listVilles', [CommandeController::class, 'listVille']);

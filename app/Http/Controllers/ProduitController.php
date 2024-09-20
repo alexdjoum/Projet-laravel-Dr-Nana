@@ -128,6 +128,8 @@ class ProduitController extends Controller
 
         return response()->json(["message" => "Modification reussie"], 200);
     }
+    
+    
 
     public function destroy(produit $produit)
     {
